@@ -1,0 +1,43 @@
+/* This file intentionally minimal - using Tailwind CSS utility classes for everything */
+
+/* Only essential styles that can't be done with Tailwind utilities */
+.microdose-gradient {
+  background: linear-gradient(
+    90deg,
+    #90EE90 0%,
+    #40E0D0 12.5%,
+    #87CEEB 25%,
+    #9370DB 37.5%,
+    #FF69B4 50%,
+    #FFA500 62.5%,
+    #FFD700 75%,
+    #ADFF2F 87.5%,
+    #F0E68C 100%
+  );
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+/* Custom scrollbar for webkit browsers */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.3);
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(255, 255, 255, 0.5);
+}

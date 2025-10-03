@@ -1,0 +1,506 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes">
+    <meta name="description" content="Interactive manual for Microdose VR - All control modes, shortcuts, and reference guide optimized for mobile use during VR sessions.">
+    <meta name="theme-color" content="#000000">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <title>Microdose VR Manual</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        microdose: {
+                            m: '#90EE90',
+                            i: '#40E0D0', 
+                            c: '#87CEEB',
+                            r: '#9370DB',
+                            o: '#FF69B4',
+                            d: '#FFA500',
+                            o2: '#FFD700',
+                            s: '#ADFF2F',
+                            e: '#F0E68C'
+                        }
+                    },
+                    fontFamily: {
+                        'sans': ['Inter', 'system-ui', 'sans-serif']
+                    },
+                    backdropBlur: {
+                        'xs': '2px',
+                    }
+                }
+            }
+        }
+    </script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        .microdose-gradient {
+            background: linear-gradient(90deg, #90EE90 0%, #40E0D0 12.5%, #87CEEB 25%, #9370DB 37.5%, #FF69B4 50%, #FFA500 62.5%, #FFD700 75%, #ADFF2F 87.5%, #F0E68C 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        .microdose-gradient-dark {
+            background: linear-gradient(90deg, #98FF98 0%, #48F0E0 12.5%, #87CEEB 25%, #A370F7 37.5%, #FF1493 50%, #FF8C00 62.5%, #FFD700 75%, #ADFF2F 87.5%, #F0E68C 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        html { scroll-behavior: smooth; }
+    </style>
+</head>
+<body class="min-h-screen bg-white dark:bg-black text-gray-900 dark:text-white font-sans antialiased transition-colors duration-300">
+    <!-- Header -->
+    <header class="sticky top-0 z-50 backdrop-blur-xl bg-white/80 dark:bg-black/20 border-b border-gray-200/30 dark:border-white/10">
+        <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+            <div class="flex h-16 items-center justify-between">
+                <!-- Logo -->
+                <div class="flex items-center">
+                    <img src="Microdose-Logo-Transparent-Dark-Background_SM.png" alt="Microdose VR" class="h-8 w-auto">
+                </div>
+
+                <!-- Mobile menu button -->
+                <button id="mobile-menu-button" class="md:hidden rounded-lg border border-gray-300 dark:border-white/20 bg-gray-100 dark:bg-white/10 p-2 backdrop-blur-sm transition-all duration-200 hover:bg-gray-200 dark:hover:bg-white/20 text-gray-700 dark:text-white">
+                    <svg class="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+                    </svg>
+                </button>
+
+                <!-- Desktop navigation -->
+                <nav class="hidden md:flex items-center space-x-4">
+                    <a href="#stylus" class="rounded-lg px-4 py-2 text-gray-600 dark:text-gray-300 transition-all duration-200 hover:bg-gray-100 dark:hover:bg-white/10 hover:text-gray-900 dark:hover:text-white">Stylus</a>
+                    <a href="#gamepad" class="rounded-lg px-4 py-2 text-gray-600 dark:text-gray-300 transition-all duration-200 hover:bg-gray-100 dark:hover:bg-white/10 hover:text-gray-900 dark:hover:text-white">Gamepad</a>
+                    <a href="#vr" class="rounded-lg px-4 py-2 text-gray-600 dark:text-gray-300 transition-all duration-200 hover:bg-gray-100 dark:hover:bg-white/10 hover:text-gray-900 dark:hover:text-white">VR</a>
+                    <a href="#cinematic" class="rounded-lg px-4 py-2 text-gray-600 dark:text-gray-300 transition-all duration-200 hover:bg-gray-100 dark:hover:bg-white/10 hover:text-gray-900 dark:hover:text-white">Cinematic</a>
+                    <a href="#dome" class="rounded-lg px-4 py-2 text-gray-600 dark:text-gray-300 transition-all duration-200 hover:bg-gray-100 dark:hover:bg-white/10 hover:text-gray-900 dark:hover:text-white">Dome</a>
+                    <a href="#effects" class="rounded-lg px-4 py-2 text-gray-600 dark:text-gray-300 transition-all duration-200 hover:bg-gray-100 dark:hover:bg-white/10 hover:text-gray-900 dark:hover:text-white">Effects</a>
+                    <button id="theme-toggle" class="rounded-lg border border-gray-300 dark:border-white/20 bg-gray-100 dark:bg-white/10 p-2 backdrop-blur-sm transition-all duration-200 hover:bg-gray-200 dark:hover:bg-white/20 text-gray-700 dark:text-white">
+                        <span id="theme-icon">🌙</span>
+                    </button>
+                </nav>
+            </div>
+        </div>
+
+        <!-- Mobile menu - Floating Dropdown -->
+            <div id="mobile-menu" class="absolute right-4 top-full z-50 mt-2 hidden w-64 origin-top-right transform rounded-2xl border border-gray-200 dark:border-white/20 bg-white/95 dark:bg-gray-900/95 backdrop-blur-xl shadow-2xl transition-all duration-200 ease-out opacity-0 scale-95 translate-y-[-10px] md:hidden">
+            <div class="space-y-1 p-4">
+                <a href="#stylus" class="block rounded-lg px-4 py-3 text-gray-600 dark:text-gray-300 transition-all duration-200 hover:bg-gray-100 dark:hover:bg-white/10 hover:text-gray-900 dark:hover:text-white">Stylus Mode</a>
+                <a href="#gamepad" class="block rounded-lg px-4 py-3 text-gray-600 dark:text-gray-300 transition-all duration-200 hover:bg-gray-100 dark:hover:bg-white/10 hover:text-gray-900 dark:hover:text-white">Gamepad Mode</a>
+                <a href="#vr" class="block rounded-lg px-4 py-3 text-gray-600 dark:text-gray-300 transition-all duration-200 hover:bg-gray-100 dark:hover:bg-white/10 hover:text-gray-900 dark:hover:text-white">VR Mode</a>
+                <a href="#cinematic" class="block rounded-lg px-4 py-3 text-gray-600 dark:text-gray-300 transition-all duration-200 hover:bg-gray-100 dark:hover:bg-white/10 hover:text-gray-900 dark:hover:text-white">Cinematic Mode</a>
+                <a href="#dome" class="block rounded-lg px-4 py-3 text-gray-600 dark:text-gray-300 transition-all duration-200 hover:bg-gray-100 dark:hover:bg-white/10 hover:text-gray-900 dark:hover:text-white">Dome Mode</a>
+                <a href="#effects" class="block rounded-lg px-4 py-3 text-gray-600 dark:text-gray-300 transition-all duration-200 hover:bg-gray-100 dark:hover:bg-white/10 hover:text-gray-900 dark:hover:text-white">Effects</a>
+                <div class="border-t border-gray-200 dark:border-white/10 mt-2 pt-2">
+                    <button id="mobile-theme-toggle" class="flex w-full items-center space-x-3 rounded-lg px-4 py-3 text-gray-600 dark:text-gray-300 transition-all duration-200 hover:bg-gray-100 dark:hover:bg-white/10 hover:text-gray-900 dark:hover:text-white">
+                        <span id="mobile-theme-icon">🌙</span>
+                        <span id="mobile-theme-text">Dark Mode</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="mx-auto max-w-7xl px-2 py-8 sm:px-6 lg:px-8">
+        <!-- Hero Section -->
+        <section class="mb-12 text-center">
+            <h1 id="main-title" class="mb-6 microdose-gradient-dark text-5xl font-bold sm:text-6xl md:text-7xl lg:text-8xl">
+                Shortcut Keys
+            </h1>
+            <p class="mx-auto max-w-2xl text-lg text-gray-600 dark:text-gray-300">
+                Interactive manual for all control modes. Optimized for mobile reference during VR sessions.
+            </p>
+        </section>
+
+        <!-- Bento Box Grid -->
+        <div class="grid gap-6 md:gap-8">
+            <!-- Stylus Mode -->
+            <section id="stylus" class="group relative overflow-hidden rounded-2xl border border-blue-200 dark:border-blue-500/30 bg-blue-50/50 dark:bg-blue-950/20 p-3 sm:p-6 backdrop-blur-xl transition-all duration-300  hover:shadow-2xl hover:shadow-blue-500/10 md:p-8 shadow-lg shadow-blue-500/5">
+                <div class="absolute inset-0 bg-gradient-to-br from-blue-100/20 via-blue-200/10 to-blue-300/20 dark:from-blue-500/10 dark:via-blue-600/5 dark:to-blue-700/10"></div>
+                <div class="relative">
+                    <div class="mb-8 text-center">
+                        <h3 class="mb-2 text-2xl font-bold text-blue-900 dark:text-blue-100 md:text-3xl">Stylus Mode</h3>
+                        <p class="text-blue-700 dark:text-blue-300">Input Mode: Stylus • Output Mode: Stylus</p>
+                    </div>
+                    
+                    <!-- Stylus Controls Grid -->
+                    <div class="grid gap-8 md:grid-cols-3">
+                        <!-- Drawing Controls -->
+                        <div class="space-y-6">
+                            <!-- Mouse Controls -->
+                            <div class="rounded-lg border border-blue-200 dark:border-blue-500/30 bg-blue-50 dark:bg-blue-950/20 p-4">
+                                <h5 class="mb-3 text-sm font-semibold uppercase tracking-wide text-blue-600 dark:text-blue-400">Drawing Controls</h5>
+                                <div class="space-y-3">
+                                    <div class="flex items-center space-x-4">
+                                        <span class="inline-flex min-w-[5rem] items-center justify-center rounded-md flex-shrink-0 border border-blue-300 dark:border-blue-500/50 bg-blue-100 dark:bg-blue-800/50 px-3 py-2 font-mono text-sm font-semibold text-blue-900 dark:text-blue-100">L CLICK</span>
+                                        <span class="text-blue-800 dark:text-blue-200">Draw Left</span>
+                                    </div>
+                                    <div class="flex items-center space-x-4">
+                                        <span class="inline-flex min-w-[5rem] items-center justify-center rounded-md flex-shrink-0 border border-blue-300 dark:border-blue-500/50 bg-blue-100 dark:bg-blue-800/50 px-3 py-2 font-mono text-sm font-semibold text-blue-900 dark:text-blue-100">R CLICK</span>
+                                        <span class="text-blue-800 dark:text-blue-200">Draw Right</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Orthographic Controls -->
+                        <div class="space-y-6">
+
+                            
+                            <!-- Width Adjustment -->
+                            <div class="rounded-lg border border-blue-200 dark:border-blue-500/30 bg-blue-50 dark:bg-blue-950/20 p-4">
+                                <h5 class="mb-3 text-sm font-semibold uppercase tracking-wide text-blue-600 dark:text-blue-400">Zoom / Width</h5>
+                                <div class="space-y-3">
+                                    <div class="flex items-center space-x-4">
+                                        <span class="inline-flex min-w-[4rem] items-center justify-center rounded-md flex-shrink-0 border border-blue-300 dark:border-blue-500/50 bg-blue-100 dark:bg-blue-800/50 px-3 py-2 font-mono text-sm font-semibold text-blue-900 dark:text-blue-100">PG UP</span>
+                                        <span class="text-blue-800 dark:text-blue-200">Increase Orthographic Width</span>
+                                    </div>
+                                    <div class="flex items-center space-x-4">
+                                        <span class="inline-flex min-w-[4rem] items-center justify-center rounded-md flex-shrink-0 border border-blue-300 dark:border-blue-500/50 bg-blue-100 dark:bg-blue-800/50 px-3 py-2 font-mono text-sm font-semibold text-blue-900 dark:text-blue-100">PG DN</span>
+                                        <span class="text-blue-800 dark:text-blue-200">Decrease Orthographic Width</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Movement Controls -->
+                        <div class="space-y-6">
+
+                            
+                            <!-- Movement -->
+                            <div class="rounded-lg border border-blue-200 dark:border-blue-500/30 bg-blue-50 dark:bg-blue-950/20 p-4">
+                                <h5 class="mb-3 text-sm font-semibold uppercase tracking-wide text-blue-600 dark:text-blue-400">Movement</h5>
+                                <div class="flex justify-center">
+                                <div class="relative">
+                                    <!-- Up arrow -->
+                                    <div class="flex justify-center mb-1">
+                                        <div class="flex h-10 w-10 items-center justify-center rounded border border-blue-300 dark:border-blue-500/50 bg-blue-100 dark:bg-blue-800/50 font-mono text-base font-semibold text-blue-900 dark:text-blue-100 shadow-sm">
+                                            ↑
+                                        </div>
+                                    </div>
+                                    
+                                    <!-- Left, Down, Right arrows in a row -->
+                                    <div class="flex space-x-1">
+                                        <div class="flex h-10 w-10 items-center justify-center rounded border border-blue-300 dark:border-blue-500/50 bg-blue-100 dark:bg-blue-800/50 font-mono text-base font-semibold text-blue-900 dark:text-blue-100 shadow-sm">
+                                            ←
+                                        </div>
+                                        <div class="flex h-10 w-10 items-center justify-center rounded border border-blue-300 dark:border-blue-500/50 bg-blue-100 dark:bg-blue-800/50 font-mono text-base font-semibold text-blue-900 dark:text-blue-100 shadow-sm">
+                                            ↓
+                                        </div>
+                                        <div class="flex h-10 w-10 items-center justify-center rounded border border-blue-300 dark:border-blue-500/50 bg-blue-100 dark:bg-blue-800/50 font-mono text-base font-semibold text-blue-900 dark:text-blue-100 shadow-sm">
+                                            →
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Gamepad Mode -->
+            <section id="gamepad" class="group relative overflow-hidden rounded-2xl border border-indigo-200 dark:border-indigo-500/30 bg-indigo-50/50 dark:bg-indigo-950/20 p-3 sm:p-6 backdrop-blur-xl transition-all duration-300 hover:shadow-2xl hover:shadow-indigo-500/10 md:p-8 shadow-lg shadow-indigo-500/5">
+                <div class="absolute inset-0 bg-gradient-to-br from-indigo-100/20 via-indigo-200/10 to-indigo-300/20 dark:from-indigo-500/10 dark:via-indigo-600/5 dark:to-indigo-700/10"></div>
+                <div class="relative">
+                    <div class="mb-8 text-center">
+                        <h3 class="mb-2 text-2xl font-bold text-indigo-900 dark:text-indigo-100 md:text-3xl">Gamepad Mode</h3>
+                        <p class="text-indigo-700 dark:text-indigo-300">Input Mode: Gamepad • Output Mode: Gamepad</p>
+                    </div>
+                    
+                    <!-- Mode Toggles -->
+                    <div class="mb-8 flex flex-wrap gap-4">
+                        <div class="flex cursor-pointer items-center space-x-3 rounded-full border border-indigo-300 dark:border-indigo-500/50 bg-indigo-100 dark:bg-indigo-800/50 px-6 py-3 transition-all duration-200 hover:bg-indigo-200 dark:hover:bg-indigo-700/50">
+                            <svg class="h-5 w-5 text-indigo-700 dark:text-indigo-200" fill="currentColor" viewBox="0 0 24 24">
+                                <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/>
+                            </svg>
+                            <span class="font-medium text-indigo-800 dark:text-indigo-100">DRAW MODE</span>
+                        </div>
+                        <div class="flex cursor-pointer items-center space-x-3 rounded-full border border-indigo-400 dark:border-indigo-600/50 bg-indigo-200 dark:bg-indigo-700/50 px-6 py-3 transition-all duration-200 hover:bg-indigo-300 dark:hover:bg-indigo-600/50">
+                            <svg class="h-5 w-5 text-indigo-800 dark:text-indigo-100" fill="currentColor" viewBox="0 0 24 24">
+                                <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
+                            </svg>
+                            <span class="font-medium text-indigo-800 dark:text-indigo-100">NAV MODE</span>
+                        </div>
+                    </div>
+
+                    <!-- Gamepad Controls Grid -->
+                    <div class="grid gap-8 md:grid-cols-3">
+                        <!-- Time Controls -->
+                        <div class="space-y-6">
+                            <!-- Time Controls -->
+                            <div class="rounded-lg border border-indigo-200 dark:border-indigo-500/30 bg-indigo-50 dark:bg-indigo-950/20 p-4">
+                                <h5 class="mb-3 text-sm font-semibold uppercase tracking-wide text-indigo-600 dark:text-indigo-400">Time Controls</h5>
+                                <div class="space-y-3">
+                                    <div class="flex items-center space-x-4">
+                                        <span class="inline-flex min-w-[2rem] items-center justify-center rounded-md flex-shrink-0 border border-indigo-300 dark:border-indigo-500/50 bg-indigo-100 dark:bg-indigo-800/50 px-3 py-2 font-mono text-sm font-semibold text-indigo-900 dark:text-indigo-100">X</span>
+                                        <span class="text-indigo-800 dark:text-indigo-200">Decrease Time</span>
+                                    </div>
+                                    <div class="flex items-center space-x-4">
+                                        <span class="inline-flex min-w-[2rem] items-center justify-center rounded-md flex-shrink-0 border border-indigo-300 dark:border-indigo-500/50 bg-indigo-100 dark:bg-indigo-800/50 px-3 py-2 font-mono text-sm font-semibold text-indigo-900 dark:text-indigo-100">B</span>
+                                        <span class="text-indigo-800 dark:text-indigo-200">Increase Time</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Speed Controls -->
+                        <div class="space-y-6">
+                            <!-- Speed Controls -->
+                            <div class="rounded-lg border border-indigo-200 dark:border-indigo-500/30 bg-indigo-50 dark:bg-indigo-950/20 p-4">
+                                <h5 class="mb-3 text-sm font-semibold uppercase tracking-wide text-indigo-600 dark:text-indigo-400">Speed Controls</h5>
+                                <div class="space-y-3">
+                                    <div class="flex items-center space-x-4">
+                                        <span class="inline-flex min-w-[2rem] items-center justify-center rounded-md flex-shrink-0 border border-indigo-300 dark:border-indigo-500/50 bg-indigo-100 dark:bg-indigo-800/50 px-3 py-2 font-mono text-sm font-semibold text-indigo-900 dark:text-indigo-100">Y</span>
+                                        <span class="text-indigo-800 dark:text-indigo-200">Increase Speed</span>
+                                    </div>
+                                    <div class="flex items-center space-x-4">
+                                        <span class="inline-flex min-w-[2rem] items-center justify-center rounded-md flex-shrink-0 border border-indigo-300 dark:border-indigo-500/50 bg-indigo-100 dark:bg-indigo-800/50 px-3 py-2 font-mono text-sm font-semibold text-indigo-900 dark:text-indigo-100">A</span>
+                                        <span class="text-indigo-800 dark:text-indigo-200">Decrease Speed</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Movement Controls -->
+                        <div class="space-y-6">
+                            
+                            <!-- Movement -->
+                            <div class="rounded-lg border border-indigo-200 dark:border-indigo-500/30 bg-indigo-50 dark:bg-indigo-950/20 p-4">
+                                <h5 class="mb-3 text-sm font-semibold uppercase tracking-wide text-indigo-600 dark:text-indigo-400">Movement</h5>
+                                <div class="space-y-3">
+                                    <div class="flex items-center space-x-4">
+                                        <span class="inline-flex min-w-[5rem] items-center justify-center rounded-md flex-shrink-0 border border-indigo-300 dark:border-indigo-500/50 bg-indigo-100 dark:bg-indigo-800/50 px-3 py-2 font-mono text-xs font-semibold text-indigo-900 dark:text-indigo-100">LEFT STICK</span>
+                                        <span class="text-indigo-800 dark:text-indigo-200">Draw Left / Nav Movement</span>
+                                    </div>
+                                    <div class="flex items-center space-x-4">
+                                        <span class="inline-flex min-w-[5rem] items-center justify-center rounded-md flex-shrink-0 border border-indigo-300 dark:border-indigo-500/50 bg-indigo-100 dark:bg-indigo-800/50 px-3 py-2 font-mono text-xs font-semibold text-indigo-900 dark:text-indigo-100">RIGHT STICK</span>
+                                        <span class="text-indigo-800 dark:text-indigo-200">Draw Right / Nav Look</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </section>
+
+            <!-- VR Mode -->
+            <section id="vr" class="group relative overflow-hidden rounded-2xl border border-purple-200 dark:border-purple-500/30 bg-purple-50/50 dark:bg-purple-950/20 p-3 sm:p-6 backdrop-blur-xl transition-all duration-300 hover:shadow-2xl hover:shadow-purple-500/10 md:p-8 shadow-lg shadow-purple-500/5">
+                <div class="absolute inset-0 bg-gradient-to-br from-purple-100/20 via-purple-200/10 to-purple-300/20 dark:from-purple-500/10 dark:via-purple-600/5 dark:to-purple-700/10"></div>
+                <div class="relative">
+                    <div class="mb-8 text-center">
+                        <h3 class="mb-2 text-2xl font-bold text-purple-900 dark:text-purple-100 md:text-3xl">VR Mode</h3>
+                        <p class="text-purple-700 dark:text-purple-300">Input Mode: VR • Output Mode: VR</p>
+                    </div>
+                    
+                    <!-- Input Types Legend -->
+                    <div class="mb-8 rounded-xl border border-purple-200 dark:border-purple-500/30 bg-purple-50 dark:bg-purple-950/20 p-6">
+                        <h4 class="mb-4 text-lg font-semibold text-purple-900 dark:text-purple-100">Input Types Legend</h4>
+                        <div class="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+                            <div class="flex flex-col items-center space-y-2 rounded-lg border border-purple-200 dark:border-purple-500/30 bg-purple-50 dark:bg-purple-900/20 p-4">
+                                <span class="inline-flex items-center justify-center rounded-full bg-purple-100 dark:bg-purple-500/20 px-3 py-1 text-xs font-semibold uppercase tracking-wide text-purple-700 dark:text-purple-300">CLICK</span>
+                                <span class="text-center text-sm text-purple-600 dark:text-purple-400">Press < 0.5s</span>
+                            </div>
+                            <div class="flex flex-col items-center space-y-2 rounded-lg border border-purple-200 dark:border-purple-500/30 bg-purple-50 dark:bg-purple-900/20 p-4">
+                                <span class="inline-flex items-center justify-center rounded-full bg-purple-100 dark:bg-purple-500/20 px-3 py-1 text-xs font-semibold uppercase tracking-wide text-purple-700 dark:text-purple-300">HOLD</span>
+                                <span class="text-center text-sm text-purple-600 dark:text-purple-400">Press ≥ 0.5s</span>
+                            </div>
+                            <div class="flex flex-col items-center space-y-2 rounded-lg border border-purple-200 dark:border-purple-500/30 bg-purple-50 dark:bg-purple-900/20 p-4">
+                                <span class="inline-flex items-center justify-center rounded-full bg-purple-100 dark:bg-purple-500/20 px-3 py-1 text-xs font-semibold uppercase tracking-wide text-purple-700 dark:text-purple-300">LONG HOLD</span>
+                                <span class="text-center text-sm text-purple-600 dark:text-purple-400">Press ≥ 3s</span>
+                            </div>
+                            <div class="flex flex-col items-center space-y-2 rounded-lg border border-purple-200 dark:border-purple-500/30 bg-purple-50 dark:bg-purple-900/20 p-4">
+                                <span class="inline-flex items-center justify-center rounded-full bg-purple-100 dark:bg-purple-500/20 px-3 py-1 text-xs font-semibold uppercase tracking-wide text-purple-700 dark:text-purple-300">COMBO</span>
+                                <span class="text-center text-sm text-purple-600 dark:text-purple-400">Multiple buttons</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- VR Controllers -->
+                    <div class="space-y-8">
+                        <!-- Oculus Touch / Valve Index -->
+                        <div class="rounded-xl border border-purple-200 dark:border-purple-500/30 bg-purple-50 dark:bg-purple-950/20 p-6">
+                            <h4 class="mb-6 text-xl font-semibold text-purple-900 dark:text-purple-100">Oculus Touch / Valve Index Controllers</h4>
+                            
+                            <div class="grid gap-8 lg:grid-cols-2">
+                                <!-- Both Controllers -->
+                                <div class="space-y-4">
+                                    <h5 class="border-b border-purple-200 dark:border-purple-500/30 pb-2 text-lg font-semibold text-purple-800 dark:text-purple-200">Both Controllers</h5>
+                                    <div class="space-y-4">
+                                        <div class="space-y-2">
+                                            <div class="font-medium text-purple-800 dark:text-purple-200">Trigger (Left/Right)</div>
+                                            <div class="flex flex-col space-y-1 sm:flex-row sm:items-center sm:space-x-3 sm:space-y-0">
+                                                <span class="inline-flex min-w-[80px] items-center justify-center rounded bg-purple-100 dark:bg-purple-500/20 px-2 py-1 text-xs font-semibold uppercase tracking-wide text-purple-700 dark:text-purple-300">HOLD</span>
+                                                <span class="text-sm text-purple-700 dark:text-purple-300">Pressure sensitive Nozzle Flow control</span>
+                                            </div>
+                                        </div>
+                                        <div class="space-y-2">
+                                            <div class="font-medium text-purple-800 dark:text-purple-200">Thumbsticks (Left/Right)</div>
+                                            <div class="flex flex-col space-y-1 sm:flex-row sm:items-center sm:space-x-3 sm:space-y-0">
+                                                <span class="inline-flex min-w-[80px] items-center justify-center rounded bg-purple-100 dark:bg-purple-500/20 px-2 py-1 text-xs font-semibold uppercase tracking-wide text-purple-700 dark:text-purple-300">ANGLE</span>
+                                                <span class="text-sm text-purple-700 dark:text-purple-300">Movement Direction</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Left Controller -->
+                                <div class="space-y-4">
+                                    <h5 class="border-b border-purple-200 dark:border-purple-500/30 pb-2 text-lg font-semibold text-purple-800 dark:text-purple-200">Left Controller</h5>
+                                    <div class="space-y-4">
+                                        <div class="space-y-2">
+                                            <div class="font-medium text-purple-800 dark:text-purple-200">Grip</div>
+                                            <div class="space-y-2">
+                                                <div class="flex flex-col space-y-1 sm:flex-row sm:items-center sm:space-x-3 sm:space-y-0">
+                                                    <span class="inline-flex min-w-[80px] items-center justify-center rounded bg-purple-100 dark:bg-purple-500/20 px-2 py-1 text-xs font-semibold uppercase tracking-wide text-purple-700 dark:text-purple-300">CLICK</span>
+                                                    <span class="text-sm text-purple-700 dark:text-purple-300">Next Brush</span>
+                                                </div>
+                                                <div class="flex flex-col space-y-1 sm:flex-row sm:items-center sm:space-x-3 sm:space-y-0">
+                                                    <span class="inline-flex min-w-[80px] items-center justify-center rounded bg-purple-100 dark:bg-purple-500/20 px-2 py-1 text-xs font-semibold uppercase tracking-wide text-purple-700 dark:text-purple-300">HOLD</span>
+                                                    <span class="text-sm text-purple-700 dark:text-purple-300">Left Nozzle Time Dilation Gyro</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Gyros Explanation -->
+                        <div class="rounded-xl border border-purple-200 dark:border-purple-500/30 bg-purple-50 dark:bg-purple-950/20 p-6">
+                            <h4 class="mb-6 text-xl font-semibold text-purple-900 dark:text-purple-100">Gyros</h4>
+                            <p class="mb-6 text-purple-700 dark:text-purple-300">Gyros are used to control values like turning a virtual dial by rotating your wrist.</p>
+                            
+                            <div class="grid gap-6 md:grid-cols-2">
+                                <div class="rounded-lg border border-purple-200 dark:border-purple-500/30 bg-purple-50 dark:bg-purple-900/20 p-4">
+                                    <h5 class="mb-2 text-lg font-semibold text-purple-800 dark:text-purple-200">Atlas</h5>
+                                    <p class="text-sm leading-relaxed text-purple-700 dark:text-purple-300">Controls the size of your head in VR. High Atlas makes objects look small and miniature. Low Atlas makes objects appear large and immersive.</p>
+                                </div>
+                                <div class="rounded-lg border border-purple-200 dark:border-purple-500/30 bg-purple-50 dark:bg-purple-900/20 p-4">
+                                    <h5 class="mb-2 text-lg font-semibold text-purple-800 dark:text-purple-200">Throw</h5>
+                                    <p class="text-sm leading-relaxed text-purple-700 dark:text-purple-300">Controls the distance that the Nozzle is thrown from the Wand. Low throw causes the Nozzle to be close to your face.</p>
+                                </div>
+                                <div class="rounded-lg border border-purple-200 dark:border-purple-500/30 bg-purple-50 dark:bg-purple-900/20 p-4">
+                                    <h5 class="mb-2 text-lg font-semibold text-purple-800 dark:text-purple-200">Time Dilation</h5>
+                                    <p class="text-sm leading-relaxed text-purple-700 dark:text-purple-300">Controls the speed of time globally. Minimum value is 0.01 or 1% regular speed. Maximum value is 2x speed.</p>
+                                </div>
+                                <div class="rounded-lg border border-purple-200 dark:border-purple-500/30 bg-purple-50 dark:bg-purple-900/20 p-4">
+                                    <h5 class="mb-2 text-lg font-semibold text-purple-800 dark:text-purple-200">Max Speed</h5>
+                                    <p class="text-sm leading-relaxed text-purple-700 dark:text-purple-300">Controls the maximum speed at which you move through space.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Cinematic Mode -->
+            <section id="cinematic" class="group relative overflow-hidden rounded-2xl border border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-900/50 p-3 sm:p-6 backdrop-blur-xl transition-all duration-300 hover:shadow-2xl md:p-8 shadow-lg">
+                <div class="absolute inset-0 bg-gradient-to-br from-gray-100/20 via-gray-200/10 to-gray-300/20 dark:from-gray-800/10 dark:via-gray-700/5 dark:to-gray-600/10"></div>
+                <div class="relative">
+                    <div class="mb-8 text-center">
+                        <h3 class="mb-2 text-2xl font-bold text-gray-700 dark:text-gray-300 md:text-3xl">Cinematic Mode</h3>
+                        <p class="text-gray-500 dark:text-gray-500">Output Mode: Cinematic • Input Mode: VR/Gamepad</p>
+                    </div>
+                    <div class="flex h-32 items-center justify-center rounded-lg border border-dashed border-gray-300 dark:border-gray-600">
+                        <p class="text-xl text-gray-500 dark:text-gray-400">Coming Soon</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Dome Mode -->
+            <section id="dome" class="group relative overflow-hidden rounded-2xl border border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-900/50 p-3 sm:p-6 backdrop-blur-xl transition-all duration-300 hover:shadow-2xl md:p-8 shadow-lg">
+                <div class="absolute inset-0 bg-gradient-to-br from-gray-100/20 via-gray-200/10 to-gray-300/20 dark:from-gray-800/10 dark:via-gray-700/5 dark:to-gray-600/10"></div>
+                <div class="relative">
+                    <div class="mb-8 text-center">
+                        <h3 class="mb-2 text-2xl font-bold text-gray-700 dark:text-gray-300 md:text-3xl">Dome Mode</h3>
+                        <p class="text-gray-500 dark:text-gray-500">Output Mode: Fulldome • Input Mode: VR</p>
+                    </div>
+                    <div class="flex h-32 items-center justify-center rounded-lg border border-dashed border-gray-300 dark:border-gray-600">
+                        <p class="text-xl text-gray-500 dark:text-gray-400">Coming Soon</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Effects -->
+            <section id="effects" class="space-y-8">
+                <!-- Effects Title -->
+                <div class="text-center">
+                    <h2 class="mb-4 text-3xl font-bold text-gray-900 dark:text-white md:text-4xl">Effects</h2>
+                    <p class="text-gray-600 dark:text-gray-400">Universal effects available across all modes</p>
+                </div>
+                
+                <!-- Effects Grid -->
+                <div class="grid gap-6 md:grid-cols-2 md:gap-8">
+                    <!-- Mirror Effects Box -->
+                    <div class="group relative overflow-hidden rounded-2xl border border-purple-200 dark:border-purple-500/30 bg-purple-50/50 dark:bg-purple-950/20 p-6 backdrop-blur-xl transition-all duration-300  hover:shadow-2xl hover:shadow-purple-500/10 shadow-lg shadow-purple-500/5">
+                        <div class="absolute inset-0 bg-gradient-to-br from-purple-100/20 via-purple-200/10 to-purple-300/20 dark:from-purple-500/10 dark:via-purple-600/5 dark:to-purple-700/10"></div>
+                        <div class="relative">
+                            <div class="mb-6 text-center">
+                                <h3 class="mb-2 text-xl font-bold text-purple-900 dark:text-purple-100">Mirror</h3>
+                            </div>
+                            
+                            <div class="space-y-4">
+                                <div class="flex items-center space-x-4">
+                                    <span class="inline-flex min-w-[2rem] items-center justify-center rounded-md flex-shrink-0 border border-purple-300 dark:border-purple-500/50 bg-purple-100 dark:bg-purple-800/50 px-3 py-2 font-mono text-sm font-semibold text-purple-900 dark:text-purple-100 shadow-sm flex-shrink-0">M</span>
+                                    <span class="text-purple-800 dark:text-purple-200">Toggle Mirror Mode</span>
+                                </div>
+                                <div class="flex items-center space-x-4">
+                                    <div class="flex space-x-1">
+                                        <span class="inline-flex items-center justify-center rounded-md border border-purple-300 dark:border-purple-500/50 bg-purple-100 dark:bg-purple-800/50 px-2 py-1 font-mono text-sm font-semibold text-purple-900 dark:text-purple-100">1</span>
+                                        <span class="inline-flex items-center justify-center rounded-md border border-purple-300 dark:border-purple-500/50 bg-purple-100 dark:bg-purple-800/50 px-2 py-1 font-mono text-sm font-semibold text-purple-900 dark:text-purple-100">2</span>
+                                        <span class="inline-flex items-center justify-center rounded-md border border-purple-300 dark:border-purple-500/50 bg-purple-100 dark:bg-purple-800/50 px-2 py-1 font-mono text-sm font-semibold text-purple-900 dark:text-purple-100">3</span>
+                                    </div>
+                                    <span class="text-purple-800 dark:text-purple-200">Mirror Presets</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- System Controls Box -->
+                    <div class="group relative overflow-hidden rounded-2xl border border-green-200 dark:border-green-500/30 bg-green-50/50 dark:bg-green-950/20 p-6 backdrop-blur-xl transition-all duration-300  hover:shadow-2xl hover:shadow-green-500/10 shadow-lg shadow-green-500/5">
+                        <div class="absolute inset-0 bg-gradient-to-br from-green-100/20 via-green-200/10 to-green-300/20 dark:from-green-500/10 dark:via-green-600/5 dark:to-green-700/10"></div>
+                        <div class="relative">
+                            <div class="mb-6 text-center">
+                                <h3 class="mb-2 text-xl font-bold text-green-900 dark:text-green-100">System Controls</h3>
+                            </div>
+                            
+                            <div class="space-y-4">
+                                <div class="flex items-center space-x-4">
+                                    <span class="inline-flex min-w-[4rem] items-center justify-center rounded-md flex-shrink-0 border border-green-300 dark:border-green-500/50 bg-green-100 dark:bg-green-800/50 px-3 py-2 font-mono text-sm font-semibold text-green-900 dark:text-green-100 shadow-sm flex-shrink-0">SPACE</span>
+                                    <span class="text-green-800 dark:text-green-200">Tap BPM</span>
+                                </div>
+                                <div class="flex items-center space-x-4">
+                                    <span class="inline-flex min-w-[4rem] items-center justify-center rounded-md flex-shrink-0 border border-green-300 dark:border-green-500/50 bg-green-100 dark:bg-green-800/50 px-3 py-2 font-mono text-sm font-semibold text-green-900 dark:text-green-100 shadow-sm flex-shrink-0">ENTER</span>
+                                    <span class="text-green-800 dark:text-green-200">Take Screenshot</span>
+                                </div>
+                                <div class="flex items-center space-x-4">
+                                    <div class="flex space-x-1">
+                                        <span class="inline-flex items-center justify-center rounded-md border border-green-400 dark:border-green-500/60 bg-green-200 dark:bg-green-700/50 px-2 py-1 font-mono text-sm font-semibold text-green-900 dark:text-green-100">CTRL</span>
+                                        <span class="inline-flex items-center justify-center rounded-md border border-green-300 dark:border-green-500/50 bg-green-100 dark:bg-green-800/50 px-2 py-1 font-mono text-sm font-semibold text-green-900 dark:text-green-100">SPACE</span>
+                                    </div>
+                                    <span class="text-green-800 dark:text-green-200">Restart World</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="py-8 text-center text-gray-600 dark:text-gray-400">
+        <p>&copy; 2024 Microdose VR. All rights reserved.</p>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>
