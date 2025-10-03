@@ -23,7 +23,18 @@ if (empty($providedSecret) || !hash_equals($urlSecret, $providedSecret)) {
 
 // Second security layer: Verify GitHub signature
 $signature = $_SERVER['HTTP_X_HUB_SIGNATURE_256'] ?? '';
-$payload = file_get_contents('php://input');
+$rawPayload = file_get_contents('php://input');
+
+// Handle both JSON and form-encoded payloads
+if (isset($_POST['payload'])) {
+    // Form-encoded webhook
+    $payload = $_POST['payload'];
+    $verificationPayload = $rawPayload; // Use raw input for signature verification
+} else {
+    // JSON webhook
+    $payload = $rawPayload;
+    $verificationPayload = $rawPayload;
+}
 
 if (empty($signature)) {
     http_response_code(401);
@@ -31,7 +42,7 @@ if (empty($signature)) {
     exit('Unauthorized: No GitHub signature');
 }
 
-$expectedSignature = 'sha256=' . hash_hmac('sha256', $payload, $webhookSecret);
+$expectedSignature = 'sha256=' . hash_hmac('sha256', $verificationPayload, $webhookSecret);
 
 if (!hash_equals($expectedSignature, $signature)) {
     http_response_code(401);
