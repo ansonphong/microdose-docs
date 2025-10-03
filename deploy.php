@@ -43,14 +43,22 @@ if (!hash_equals($expectedSignature, $signature)) {
 $data = json_decode($payload, true);
 if (!$data) {
     http_response_code(400);
-    logMessage('ERROR: Invalid JSON payload');
+    logMessage('ERROR: Invalid JSON payload - Raw payload: ' . substr($payload, 0, 200));
     exit('Bad Request: Invalid JSON');
 }
 
+// Handle GitHub ping event
+if (isset($data['zen'])) {
+    logMessage('INFO: GitHub ping event received - webhook configured successfully');
+    http_response_code(200);
+    exit('Pong! Webhook configured successfully.');
+}
+
 // Only deploy on push to master
-if ($data['ref'] !== 'refs/heads/master') {
-    logMessage('INFO: Ignoring push to ' . $data['ref']);
-    exit('Ignored: Not master branch');
+if (!isset($data['ref']) || $data['ref'] !== 'refs/heads/master') {
+    $ref = $data['ref'] ?? 'unknown';
+    logMessage('INFO: Ignoring event - ref: ' . $ref);
+    exit('Ignored: Not a push to master branch');
 }
 
 logMessage('INFO: Starting deployment for commit ' . substr($data['after'], 0, 7));
