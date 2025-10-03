@@ -119,3 +119,4 @@ echo json_encode([
     'lfs_status' => $lfsReturn === 0 ? 'success' : 'warning'
 ]);
 ?>
+
