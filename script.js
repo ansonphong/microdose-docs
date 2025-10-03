@@ -235,13 +235,11 @@ class MicrodoseVRManual {
         
         navLinks.forEach(link => {
             // Remove active classes
-            link.classList.remove('bg-white/20', 'text-white');
-            link.classList.add('text-gray-300');
+            link.classList.remove('bg-gray-900/10', 'dark:bg-white/20', 'text-gray-900', 'dark:text-white');
             
             // Add active classes to current section
             if (link.getAttribute('href') === `#${currentSection}`) {
-                link.classList.add('bg-white/20', 'text-white');
-                link.classList.remove('text-gray-300');
+                link.classList.add('bg-gray-900/10', 'dark:bg-white/20', 'text-gray-900', 'dark:text-white');
             }
         });
     }
